@@ -1,21 +1,29 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from './redux/reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from './redux/actions';
+// import { LOGIN, LOGOUT } from './redux/actions';
 
-const MyComponent = () => {
-  const data = useSelector((state) => state.data.data);
+export default function UserProfile() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
-  const handleUpdate = (newData) => {
-    dispatch(setData(newData)); //
+  const handleLogin = () => {
+    dispatch(login('Sergey Potapov'));
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
     <div>
-      <p>{data}</p>
-      <button onClick={() => handleUpdate('New data')}>Update</button>
+      {user.isLoggedIn ? (
+        <div>
+          <h1>Hello, {user.name}</h1>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <button onClick={handleLogin}>Login</button>
+      )}
     </div>
-  )
+  );
 }
-
-export default MyComponent;

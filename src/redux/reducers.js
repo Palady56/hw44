@@ -1,17 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { LOGIN, LOGOUT } from './actions';
 
-const dataSlice = createSlice({
-  name: 'data',
-  initialState: {
-    data: "No data found",
-  },
-  reducers: {
-    setData: (state, action) => {
-      state.data = action.payload;
-    },
-  },
-});
+const initialState = {
+  name: '',
+  isLoggedIn: false,
+};
 
-export const { setData } = dataSlice.actions;
+const userReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        name: action.payload,
+        isLoggedIn: true,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        name: '',
+        isLoggedIn: false,
+      };
+    default:
+      return state;
+  }
+};
 
-export default dataSlice.reducer;
+export default userReducer;
